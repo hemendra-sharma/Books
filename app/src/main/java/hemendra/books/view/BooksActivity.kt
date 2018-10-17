@@ -1,7 +1,8 @@
-package hemendra.books
+package hemendra.books.view
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import hemendra.books.R
 
 class BooksActivity : AppCompatActivity() {
 
