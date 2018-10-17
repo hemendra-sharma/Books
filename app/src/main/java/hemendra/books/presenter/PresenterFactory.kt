@@ -12,7 +12,7 @@ class PresenterFactory : IPresenterFactory {
         return SearchPresenter.getInstance(booksView)
     }
 
-    override fun getImagePresenter(imageHolder: IImageHolder): IImagePresenter {
+    override fun getImagePresenter(): IImagePresenter {
         return ImagePresenter.getInstance()
     }
 }

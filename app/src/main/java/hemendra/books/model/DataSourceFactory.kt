@@ -8,11 +8,11 @@ import hemendra.books.presenter.listeners.IDataSourceListener
 class DataSourceFactory : ISourceFactory {
 
     override fun getDataSource(listener: IDataSourceListener): IDataSource {
-        return BooksSource(listener)
+        return BooksSource.getInstance(listener)
     }
 
     override fun getImageSource(): IImageSource {
-        return ImageSource()
+        return ImageSource.getInstance()
     }
 
 }

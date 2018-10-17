@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Books</string>
     <string name="API_KEY">AIzaSyBI-j6s-lPbpwk4dnqQNf0Mr1xsXKT5tTg</string>
+    <string name="app_logo">App Logo</string>
+    <string name="searching">Searching…</string>
+    <string name="search">Search</string>
+    <string name="book_cover">Book Cover</string>
+    <string name="book_title">Book Title</string>
+    <string name="book_subtitle">Book Subtitle</string>
+    <string name="by_author">By Author</string>
+    <string name="star">Star</string>
+    <string name="_0_10_0">0/10 (0)</string>
 </resources>

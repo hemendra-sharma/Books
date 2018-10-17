@@ -5,9 +5,9 @@
     <color name="colorAccent">#913cac</color>
 
     <color name="progressColor">#63A6FF</color>
-    <color name="textColor">#9b1b1f</color>
+    <color name="textColor">#ffffff</color>
     <color name="textColorDark">#760c11</color>
-    <color name="textColorInverse">#ffffff</color>
+    <color name="textColorInverse">#000000</color>
 
     <color name="textColorDarkGreen">#077307</color>
     <color name="textColorDarkRed">#811616</color>

@@ -29,8 +29,12 @@ class SearchPresenter(private var activity: IBooksView?) :
         dataSource = dataSourceFactory.getDataSource(this)
     }
 
-    override fun performSearch(query: String, apiKey: String) {
-        dataSource?.searchBooks(query, apiKey)
+    override fun performSearch(query: String, apiKey: String, pageNumber: Int) {
+        dataSource?.searchBooks(query, apiKey, pageNumber)
+    }
+
+    override fun isSearching(): Boolean {
+        return dataSource?.isSearching() ?: false
     }
 
     override fun onSearchResults(results: ArrayList<Book>) {

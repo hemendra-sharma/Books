@@ -17,9 +17,8 @@ interface IPresenterFactory {
 
     /**
      * Get a new instance of the image presenter.
-     * @param imageHolder Instance of the image holder view.
      * @return A new instance of the actual image holder view class.
      */
-    fun getImagePresenter(imageHolder: IImageHolder): IImagePresenter
+    fun getImagePresenter(): IImagePresenter
 
 }
