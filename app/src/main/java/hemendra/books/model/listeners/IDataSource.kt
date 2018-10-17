@@ -5,8 +5,9 @@ interface IDataSource {
     /**
      * Start searching for the book volumes.
      * @param query The keyword to search for.
+     * @param apiKey The API Key for interacting with Google Books API.
      */
-    fun searchBooks(query: String)
+    fun searchBooks(query: String, apiKey: String)
 
     /**
      * Abort the ongoing search process.

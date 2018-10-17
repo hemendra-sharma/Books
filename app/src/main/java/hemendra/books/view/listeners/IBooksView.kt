@@ -1,6 +1,6 @@
 package hemendra.books.view.listeners
 
-import hemendra.books.Book
+import hemendra.books.data.Book
 
 interface IBooksView {
 

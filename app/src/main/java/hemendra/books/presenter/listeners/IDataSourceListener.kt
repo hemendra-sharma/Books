@@ -1,6 +1,6 @@
 package hemendra.books.presenter.listeners
 
-import hemendra.books.Book
+import hemendra.books.data.Book
 
 interface IDataSourceListener {
 
