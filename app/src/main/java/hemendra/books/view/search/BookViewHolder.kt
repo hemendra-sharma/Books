@@ -86,7 +86,7 @@ class BookViewHolder(val view: View,
 
                 sb.append(book.authors[i])
                 if(i < book.authors.size-1)
-                    sb.append(",\n")
+                    sb.append(", ")
             }
             tvAuthors.text = sb.toString()
             tvAuthors.visibility = View.VISIBLE
@@ -108,7 +108,7 @@ class BookViewHolder(val view: View,
 
                 sb.append(book.categories[i])
                 if(i < book.categories.size-1)
-                    sb.append(",\n")
+                    sb.append(", ")
             }
             tvCategories.text = sb.toString()
             tvCategories.visibility = View.VISIBLE

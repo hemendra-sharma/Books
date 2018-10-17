@@ -46,11 +46,28 @@
             android:maxLines="1"
             android:text="@string/book_subtitle"/>
 
+        <TextView
+            android:id="@+id/tvAuthors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="end|center_vertical"
+            android:layout_toEndOf="@+id/ivCover"
+            android:layout_below="@+id/tvSubtitle"
+            android:layout_marginStart="10dp"
+            android:textSize="@dimen/textSize14"
+            android:textColor="#00aa00"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:minLines="1"
+            android:ellipsize="end"
+            android:text="@string/by_author"/>
+
         <ImageView
             android:id="@+id/ivStar"
             android:layout_width="25dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvSubtitle"
+            android:layout_below="@+id/tvAuthors"
             android:layout_toEndOf="@+id/ivCover"
             android:contentDescription="@string/star"
             android:layout_alignTop="@+id/tvRating"
@@ -63,8 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/ivStar"
-            android:layout_below="@+id/tvSubtitle"
-            android:layout_marginTop="5dp"
+            android:layout_below="@+id/tvAuthors"
             android:textSize="@dimen/textSize14"
             android:textColor="#fda101"
             android:maxLines="1"
@@ -72,42 +88,28 @@
             android:text="@string/_0_10_0"/>
 
         <TextView
-            android:id="@+id/tvAuthors"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tvRating"
-            android:layout_marginTop="5dp"
-            android:textSize="@dimen/textSize14"
-            android:textColor="#00aa00"
-            android:textStyle="bold"
-            android:maxLines="3"
-            android:minLines="1"
-            android:text="@string/by_author"/>
-
-        <TextView
             android:id="@+id/tvCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/ivCover"
-            android:layout_below="@+id/tvAuthors"
+            android:layout_below="@+id/ivStar"
             android:layout_marginStart="10dp"
             android:textSize="@dimen/textSize14"
             android:textColor="#3b3b3b"
-            android:maxLines="3"
+            android:maxLines="2"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:text="Category 1, Category 2, ..."/>
 
         <TextView
             android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCategories"
             android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/ivCover"
             android:textSize="@dimen/textSize14"
             android:textColor="#6e6e6e"
-            android:layout_alignParentEnd="true"
             android:maxLines="3"
             android:ellipsize="end"
             android:gravity="center_vertical"

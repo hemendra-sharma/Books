@@ -7,7 +7,7 @@
     <string name="book_cover">Book Cover</string>
     <string name="book_title">Book Title</string>
     <string name="book_subtitle">Book Subtitle</string>
-    <string name="by_author">By Author</string>
+    <string name="by_author">By: Author</string>
     <string name="star">Star</string>
     <string name="_0_10_0">0/10 (0)</string>
 </resources>
