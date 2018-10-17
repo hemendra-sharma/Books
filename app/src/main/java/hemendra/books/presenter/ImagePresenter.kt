@@ -1,18 +1,19 @@
 package hemendra.books.presenter
 
+import android.content.Context
 import hemendra.books.model.DataSourceFactory
 import hemendra.books.model.listeners.IImageSource
 import hemendra.books.presenter.listeners.IImagePresenter
 import hemendra.books.view.listeners.IImageHolder
 
-class ImagePresenter : IImagePresenter {
+class ImagePresenter(context: Context) : IImagePresenter {
 
     companion object {
 
         var imagePresenter: ImagePresenter? = null
 
-        fun getInstance(): ImagePresenter {
-            if(imagePresenter == null) imagePresenter = ImagePresenter()
+        fun getInstance(context: Context): ImagePresenter {
+            if(imagePresenter == null) imagePresenter = ImagePresenter(context)
             return imagePresenter!!
         }
 
@@ -23,7 +24,7 @@ class ImagePresenter : IImagePresenter {
     private var imageSource: IImageSource? = null
 
     init {
-        imageSource = dataSourceFactory.getImageSource()
+        imageSource = dataSourceFactory.getImageSource(context)
     }
 
     override fun getImage(url: String, holder: IImageHolder) {

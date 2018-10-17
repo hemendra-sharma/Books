@@ -1,5 +1,6 @@
 package hemendra.books.presenter.listeners
 
+import android.content.Context
 import hemendra.books.view.listeners.IBooksView
 import hemendra.books.view.listeners.IImageHolder
 
@@ -18,7 +19,8 @@ interface IPresenterFactory {
     /**
      * Get a new instance of the image presenter.
      * @return A new instance of the actual image holder view class.
+     * @param context The application context.
      */
-    fun getImagePresenter(): IImagePresenter
+    fun getImagePresenter(context: Context): IImagePresenter
 
 }

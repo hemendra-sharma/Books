@@ -16,8 +16,8 @@ class BooksListAdapter(private val books: ArrayList<Book>,
 
     private var endReached = false
 
-    fun appendData(movies: ArrayList<Book>) {
-        this.books.addAll(movies)
+    fun appendData(books: ArrayList<Book>) {
+        this.books.addAll(books)
         notifyDataSetChanged()
     }
 

@@ -48,8 +48,12 @@ class BooksParser {
                     book.description = volumeInfo.optString("description")
                     book.averageRating = volumeInfo.optDouble("averageRating", -1.0)
                     book.ratingsCount = volumeInfo.optLong("ratingsCount", -1)
-                    book.smallThumbnail = volumeInfo.optString("smallThumbnail")
-                    book.thumbnail = volumeInfo.optString("thumbnail")
+
+                    if(volumeInfo.has("imageLinks")) {
+                        val imageLinks = volumeInfo.getJSONObject("imageLinks")
+                        book.smallThumbnail = imageLinks.optString("smallThumbnail")
+                        book.thumbnail = imageLinks.optString("thumbnail")
+                    }
 
                     if(volumeInfo.has("authors")) {
                         val authors = volumeInfo.getJSONArray("authors")

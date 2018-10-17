@@ -7,6 +7,8 @@ import android.view.Menu
 import hemendra.books.R
 import hemendra.books.data.Book
 import hemendra.books.presenter.PresenterFactory
+import hemendra.books.presenter.listeners.IImagePresenter
+import hemendra.books.presenter.listeners.ISearchPresenter
 import hemendra.books.view.search.SearchFragment
 import hemendra.books.view.listeners.IBooksView
 import hemendra.books.view.listeners.OnBookItemClickListener
@@ -20,8 +22,8 @@ class BooksActivity : AppCompatActivity(), IBooksView {
 
     private val presenterFactory = PresenterFactory()
 
-    private val searchPresenter = presenterFactory.getSearchPresenter(this)
-    private val imagePresenter = presenterFactory.getImagePresenter()
+    private var searchPresenter : ISearchPresenter? = null
+    private var imagePresenter : IImagePresenter? = null
 
     private val searchFragment = SearchFragment()
 
@@ -29,8 +31,11 @@ class BooksActivity : AppCompatActivity(), IBooksView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_books)
 
-        searchFragment.setSearchPresenter(searchPresenter)
-        searchFragment.setImagePresenter(imagePresenter)
+        searchPresenter = presenterFactory.getSearchPresenter(this)
+        imagePresenter = presenterFactory.getImagePresenter(applicationContext)
+
+        searchPresenter?.let { searchFragment.setSearchPresenter(it) }
+        imagePresenter?.let { searchFragment.setImagePresenter(it) }
 
         searchFragment.setOnBookItemClickListener(onBookItemClickListener)
 
@@ -74,8 +79,8 @@ class BooksActivity : AppCompatActivity(), IBooksView {
     }
 
     override fun onDestroy() {
-        searchPresenter.destroy()
-        imagePresenter.destroy()
+        searchPresenter?.destroy()
+        imagePresenter?.destroy()
         searchFragment.destroy()
         super.onDestroy()
     }

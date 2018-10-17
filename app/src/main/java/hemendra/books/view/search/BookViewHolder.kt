@@ -2,6 +2,7 @@ package hemendra.books.view.search
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -52,7 +53,16 @@ class BookViewHolder(val view: View,
         hideProgress()
 
         ivCover.setImageBitmap(null)
-        imagesPresenter?.getImage(book.smallThumbnail, this)
+        ivCover.setBackgroundColor(Color.parseColor("#eeeeee"))
+
+        loadingImageURL = when {
+            book.smallThumbnail.isNotEmpty() -> book.smallThumbnail
+            book.thumbnail.isNotEmpty() -> book.thumbnail
+            else -> ""
+        }
+
+        if(loadingImageURL.isNotEmpty())
+            imagesPresenter?.getImage(loadingImageURL, this)
 
         tvTitle.text = book.title
         if(book.subtitle.isNotEmpty()) {
@@ -164,6 +174,7 @@ class BookViewHolder(val view: View,
     override fun gotImage(bitmap: Bitmap, url: String) {
         if(url == loadingImageURL) {
             ivCover.setImageBitmap(bitmap)
+            ivCover.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 }

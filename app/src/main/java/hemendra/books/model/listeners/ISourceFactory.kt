@@ -1,5 +1,6 @@
 package hemendra.books.model.listeners
 
+import android.content.Context
 import hemendra.books.presenter.listeners.IDataSourceListener
 
 /**
@@ -15,7 +16,8 @@ interface ISourceFactory {
 
     /**
      * Get the instance of the image source.
+     * @param context The application context.
      */
-    fun getImageSource(): IImageSource
+    fun getImageSource(context: Context): IImageSource
 
 }

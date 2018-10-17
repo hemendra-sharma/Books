@@ -1,5 +1,6 @@
 package hemendra.books.presenter
 
+import android.content.Context
 import hemendra.books.presenter.listeners.IImagePresenter
 import hemendra.books.presenter.listeners.IPresenterFactory
 import hemendra.books.presenter.listeners.ISearchPresenter
@@ -12,7 +13,7 @@ class PresenterFactory : IPresenterFactory {
         return SearchPresenter.getInstance(booksView)
     }
 
-    override fun getImagePresenter(): IImagePresenter {
-        return ImagePresenter.getInstance()
+    override fun getImagePresenter(context: Context): IImagePresenter {
+        return ImagePresenter.getInstance(context)
     }
 }
