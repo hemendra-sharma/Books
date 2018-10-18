@@ -6,7 +6,7 @@ import hemendra.books.model.listeners.IImageSource
 import hemendra.books.presenter.listeners.IImagePresenter
 import hemendra.books.view.listeners.IImageHolder
 
-class ImagePresenter(context: Context) : IImagePresenter {
+class ImagePresenter private constructor(context: Context) : IImagePresenter {
 
     companion object {
 
@@ -38,8 +38,8 @@ class ImagePresenter(context: Context) : IImagePresenter {
     override fun destroy() {
         abort()
         imageSource?.destroy()
-
         imageSource = null
+        imagePresenter = null
     }
 
 }

@@ -36,10 +36,10 @@ class BooksParser {
 
         private fun parseBook(obj: JSONObject): Book? {
             try {
+                val book = Book()
+
                 if(obj.has("volumeInfo")) {
                     val volumeInfo = obj.getJSONObject("volumeInfo")
-
-                    val book = Book()
 
                     book.title = volumeInfo.optString("title")
                     book.subtitle = volumeInfo.optString("subtitle")
@@ -68,9 +68,21 @@ class BooksParser {
                             book.categories.add(categories.getString(i))
                         }
                     }
-
-                    return book
+                } else {
+                    return null
                 }
+
+                if(obj.has("saleInfo")) {
+                    val saleInfo = obj.getJSONObject("saleInfo")
+                    book.buyLink = saleInfo.optString("buyLink")
+                }
+
+                if(obj.has("accessInfo")) {
+                    val accessInfo = obj.getJSONObject("accessInfo")
+                    book.webReaderLink = accessInfo.optString("webReaderLink")
+                }
+
+                return book
             } catch (e : JSONException) {
                 e.printStackTrace()
             }

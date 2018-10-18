@@ -31,37 +31,42 @@ class GetBooks(private val listener: BooksLoaderListener):
     override fun doInBackground(vararg params: Any): ArrayList<Book>? {
         if(Looper.myLooper() == null) Looper.prepare()
 
-        val query = URLEncoder.encode(params[0] as String, "UTF-8")
-        val apiKey = params[1] as String
-        val pageNumber = params[2] as Int
-        val startIndex = (pageNumber-1) * 10
+        try {
+            val query = URLEncoder.encode(params[0] as String, "UTF-8")
+            val apiKey = params[1] as String
+            val pageNumber = params[2] as Int
+            val startIndex = (pageNumber - 1) * 10
 
-        val url = "https://www.googleapis.com/books/v1/volumes?q=$query&key=$apiKey&startIndex=$startIndex"
+            val url = "https://www.googleapis.com/books/v1/volumes?q=$query&key=$apiKey&startIndex=$startIndex"
 
-        val json = ContentDownloader.getString(url, object : ConnectionCallback {
-            override fun onConnectionInitialized(conn: HttpURLConnection) {
-                connection = conn
-                disconnectHandler = Handler(disconnectCallback)
+            val json = ContentDownloader.getString(url, object : ConnectionCallback {
+                override fun onConnectionInitialized(conn: HttpURLConnection) {
+                    connection = conn
+                    disconnectHandler = Handler(disconnectCallback)
+                }
+
+                override fun onResponseCode(code: Int) {
+                    codeToReason(code)
+                }
+
+                override fun onInterrupted() {
+                    reason = "Aborted"
+                }
+
+                override fun onError() {
+                    reason = "Network Error"
+                }
+            })
+
+            json?.let {
+                return BooksParser.parseBooks(it)
             }
 
-            override fun onResponseCode(code: Int) {
-                codeToReason(code)
-            }
-
-            override fun onInterrupted() {
-                reason = "Aborted"
-            }
-
-            override fun onError() {
-                reason = "Network Error"
-            }
-        })
-
-        json?.let {
-            return BooksParser.parseBooks(it)
+            return null
+        } finally {
+            Looper.myLooper()?.quit()
+            disconnectHandler = null
         }
-
-        return null
     }
 
     override fun onPostExecute(result: ArrayList<Book>?) {

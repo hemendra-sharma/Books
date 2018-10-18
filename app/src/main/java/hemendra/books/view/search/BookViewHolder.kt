@@ -73,7 +73,7 @@ class BookViewHolder(val view: View,
         }
 
         if(book.averageRating >= 0 && book.ratingsCount >= 0) {
-            tvRating.text = String.format(Locale.getDefault(), "%.1f/10 (%d)",
+            tvRating.text = String.format(Locale.getDefault(), "%.1f/5 (%d)",
                     book.averageRating, book.ratingsCount)
             tvRating.visibility = View.VISIBLE
             ivStar.visibility = View.VISIBLE
@@ -128,8 +128,19 @@ class BookViewHolder(val view: View,
 
         if(book.publishedDate.isNotEmpty()) {
             try {
-                val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(book.publishedDate)
-                tvDate.text = "Published On: "+SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date)
+                if(book.publishedDate.length == 4) { // has only year. e.g. 2018
+                    tvDate.text = "Published On: " + book.publishedDate
+                } else if(book.publishedDate.length == 7) { // has year and month. e.g. 2018-10
+                    val date = SimpleDateFormat("yyyy-MM",
+                            Locale.getDefault()).parse(book.publishedDate)
+                    tvDate.text = "Published On: " +
+                            SimpleDateFormat("MMM, yyyy", Locale.getDefault()).format(date)
+                } else { // may have full date
+                    val date = SimpleDateFormat("yyyy-MM-dd",
+                            Locale.getDefault()).parse(book.publishedDate)
+                    tvDate.text = "Published On: " +
+                            SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date)
+                }
                 tvDate.visibility = View.VISIBLE
             } catch (e: IllegalArgumentException) {
                 e.printStackTrace()

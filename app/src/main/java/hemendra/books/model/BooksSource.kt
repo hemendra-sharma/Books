@@ -5,7 +5,8 @@ import hemendra.books.model.listeners.BooksLoaderListener
 import hemendra.books.model.listeners.IDataSource
 import hemendra.books.presenter.listeners.IDataSourceListener
 
-class BooksSource(private val listener: IDataSourceListener) : IDataSource, BooksLoaderListener {
+class BooksSource private constructor(private val listener: IDataSourceListener) :
+        IDataSource, BooksLoaderListener {
 
     companion object {
         private var booksSource: BooksSource? = null

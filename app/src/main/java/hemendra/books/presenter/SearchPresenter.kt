@@ -7,7 +7,7 @@ import hemendra.books.presenter.listeners.IDataSourceListener
 import hemendra.books.presenter.listeners.ISearchPresenter
 import hemendra.books.view.listeners.IBooksView
 
-class SearchPresenter(private var activity: IBooksView?) :
+class SearchPresenter private constructor(private var activity: IBooksView?) :
         ISearchPresenter, IDataSourceListener {
 
     companion object {

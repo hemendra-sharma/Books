@@ -6,7 +6,8 @@ import hemendra.books.model.listeners.IImageLoaderListener
 import hemendra.books.model.listeners.IImageSource
 import hemendra.books.view.listeners.IImageHolder
 
-class ImageSource(context: Context) : IImageSource, IImageLoaderListener {
+class ImageSource private constructor(context: Context) :
+        IImageSource, IImageLoaderListener {
 
     companion object {
 

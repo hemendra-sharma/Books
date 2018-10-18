@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
-import hemendra.books.view.showMessage
+import hemendra.books.view.message.showMessage
 import hemendra.books.R
 import hemendra.books.data.Book
 import hemendra.books.presenter.listeners.IImagePresenter
@@ -117,6 +117,7 @@ class SearchFragment : Fragment() {
         }
 
         if(loadingFirstTime) {
+            loadingFirstTime = false
             lastSearched = ""
             lastPageNumber = 1
             performSearch(lastSearched, lastPageNumber)
@@ -161,7 +162,11 @@ class SearchFragment : Fragment() {
 
     fun onSearchFailed(reason: String) {
         hideProgress()
-        context?.let { showMessage(it, "Search Failed. Reason: $reason") }
+        context?.let {
+            fragmentManager?.let { fm ->
+                showMessage(fm, "Search Failed. Reason: $reason")
+            }
+        }
     }
 
     private fun checkLoadMore() {

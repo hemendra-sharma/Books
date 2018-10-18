@@ -9,6 +9,7 @@ import hemendra.books.data.Book
 import hemendra.books.presenter.PresenterFactory
 import hemendra.books.presenter.listeners.IImagePresenter
 import hemendra.books.presenter.listeners.ISearchPresenter
+import hemendra.books.view.details.DetailsFragment
 import hemendra.books.view.search.SearchFragment
 import hemendra.books.view.listeners.IBooksView
 import hemendra.books.view.listeners.OnBookItemClickListener
@@ -26,6 +27,7 @@ class BooksActivity : AppCompatActivity(), IBooksView {
     private var imagePresenter : IImagePresenter? = null
 
     private val searchFragment = SearchFragment()
+    private val detailsFragment = DetailsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,10 @@ class BooksActivity : AppCompatActivity(), IBooksView {
         imagePresenter = presenterFactory.getImagePresenter(applicationContext)
 
         searchPresenter?.let { searchFragment.setSearchPresenter(it) }
-        imagePresenter?.let { searchFragment.setImagePresenter(it) }
+        imagePresenter?.let {
+            searchFragment.setImagePresenter(it)
+            detailsFragment.setImagePresenter(it)
+        }
 
         searchFragment.setOnBookItemClickListener(onBookItemClickListener)
 
@@ -82,7 +87,14 @@ class BooksActivity : AppCompatActivity(), IBooksView {
         searchPresenter?.destroy()
         imagePresenter?.destroy()
         searchFragment.destroy()
+        detailsFragment.destroy()
         super.onDestroy()
+    }
+
+    private val onBookItemClickListener = object : OnBookItemClickListener {
+        override fun onItemClick(book: Book) {
+            showDetailsFragment(book)
+        }
     }
 
     private fun showSearchFragment() {
@@ -92,10 +104,12 @@ class BooksActivity : AppCompatActivity(), IBooksView {
         transaction.commitAllowingStateLoss()
     }
 
-    private val onBookItemClickListener = object : OnBookItemClickListener {
-        override fun onItemClick(book: Book) {
-
-        }
+    private fun showDetailsFragment(book: Book) {
+        val transaction = supportFragmentManager.beginTransaction()
+        detailsFragment.setBook(book)
+        transaction.replace(R.id.place_holder, detailsFragment, DETAILS_FRAGMENT)
+        transaction.addToBackStack(DETAILS_FRAGMENT)
+        transaction.commitAllowingStateLoss()
     }
 
     override fun onSearchResults(results: ArrayList<Book>) {

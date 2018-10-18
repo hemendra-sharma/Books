@@ -13,5 +13,7 @@ class Book {
     var ratingsCount: Long = 0L
     var smallThumbnail = ""
     var thumbnail = ""
+    var buyLink = ""
+    var webReaderLink = ""
 
 }

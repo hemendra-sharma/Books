@@ -44,6 +44,7 @@
             android:textSize="@dimen/textSize14"
             android:textColor="@color/textColorDark"
             android:maxLines="1"
+            android:ellipsize="end"
             android:text="@string/book_subtitle"/>
 
         <TextView
