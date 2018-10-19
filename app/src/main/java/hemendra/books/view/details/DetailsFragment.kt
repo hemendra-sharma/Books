@@ -176,7 +176,7 @@ class DetailsFragment: Fragment(), IImageHolder {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(b.buyLink)
                     if(intent.resolveActivity(act.packageManager) != null)
-                        startActivity(intent)
+                        startActivity(Intent.createChooser(intent, "Select an App"))
                     else
                         Toast.makeText(act, "No App Found to Buy This!", Toast.LENGTH_SHORT).show()
                 }
@@ -191,7 +191,7 @@ class DetailsFragment: Fragment(), IImageHolder {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(b.webReaderLink)
                     if(intent.resolveActivity(act.packageManager) != null)
-                        startActivity(intent)
+                        startActivity(Intent.createChooser(intent, "Select an App"))
                     else
                         Toast.makeText(act, "No App Found to Read This!", Toast.LENGTH_SHORT).show()
                 }

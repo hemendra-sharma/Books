@@ -1,5 +1,6 @@
 package hemendra.books.presenter
 
+import android.support.annotation.VisibleForTesting
 import hemendra.books.data.Book
 import hemendra.books.model.DataSourceFactory
 import hemendra.books.model.listeners.IDataSource
@@ -7,7 +8,7 @@ import hemendra.books.presenter.listeners.IDataSourceListener
 import hemendra.books.presenter.listeners.ISearchPresenter
 import hemendra.books.view.listeners.IBooksView
 
-class SearchPresenter private constructor(private var activity: IBooksView?) :
+class SearchPresenter private constructor(internal var activity: IBooksView?) :
         ISearchPresenter, IDataSourceListener {
 
     companion object {
@@ -23,7 +24,8 @@ class SearchPresenter private constructor(private var activity: IBooksView?) :
 
     private val dataSourceFactory = DataSourceFactory()
 
-    private var dataSource: IDataSource? = null
+    @VisibleForTesting
+    internal var dataSource: IDataSource? = null
 
     init {
         dataSource = dataSourceFactory.getDataSource(this)

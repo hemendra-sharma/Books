@@ -82,9 +82,7 @@ class DownloadPool {
     fun abortAllDownloads() {
         queue.clear()
         for(i in 0 until downloadingSlots.size) {
-            downloadingSlots[i]?.let {
-                it.cancel(true)
-            }
+            downloadingSlots[i]?.cancel(true)
             downloadingSlots[i] = null
         }
     }

@@ -1,12 +1,15 @@
 package hemendra.books.model
 
+import android.support.annotation.VisibleForTesting
 import hemendra.books.data.Book
 import hemendra.books.model.listeners.BooksLoaderListener
 import hemendra.books.model.listeners.IDataSource
+import hemendra.books.model.listeners.IGetBooksFactory
 import hemendra.books.presenter.listeners.IDataSourceListener
 
-class BooksSource private constructor(private val listener: IDataSourceListener) :
-        IDataSource, BooksLoaderListener {
+class BooksSource private constructor(
+        @VisibleForTesting
+        internal val listener: IDataSourceListener) : IDataSource, BooksLoaderListener {
 
     companion object {
         private var booksSource: BooksSource? = null
@@ -16,13 +19,16 @@ class BooksSource private constructor(private val listener: IDataSourceListener)
         }
     }
 
+    @VisibleForTesting
+    internal var factory: IGetBooksFactory = GetBooksFactory()
+
     private var getBooks : GetBooks? = null
 
     override fun searchBooks(query: String, apiKey: String, pageNumber: Int) {
         if(isSearching())
             return
 
-        getBooks = GetBooks(this)
+        getBooks = factory.newInstance(this)
         getBooks?.execute(query, apiKey, pageNumber)
     }
 
