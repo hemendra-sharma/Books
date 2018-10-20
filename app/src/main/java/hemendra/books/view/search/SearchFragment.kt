@@ -2,21 +2,22 @@ package hemendra.books.view.search
 
 import android.app.SearchManager
 import android.content.Context
+import android.database.Cursor
 import android.os.Bundle
 import android.os.Handler
+import android.provider.SearchRecentSuggestions
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
-import hemendra.books.view.message.showMessage
 import hemendra.books.R
 import hemendra.books.data.Book
 import hemendra.books.presenter.listeners.IImagePresenter
 import hemendra.books.presenter.listeners.ISearchPresenter
 import hemendra.books.view.listeners.OnBookItemClickListener
+import hemendra.books.view.message.showMessage
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlin.collections.ArrayList
 
 class SearchFragment : Fragment() {
 
@@ -61,11 +62,11 @@ class SearchFragment : Fragment() {
 
         menuInflater.inflate(R.menu.main, menu)
 
-        // Associate searchable configuration with the SearchView
-        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchMenuItem = menu.findItem(R.id.action_search)
         searchView = searchMenuItem?.actionView as SearchView?
-        //val settingsItem = menu.findItem(R.id.action_settings)
+
+        // Associate searchable configuration with the SearchView
+        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchView?.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
 
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -74,10 +75,32 @@ class SearchFragment : Fragment() {
                 lastSearched = query
                 lastPageNumber = 1
                 performSearch(query, lastPageNumber)
+                SearchRecentSuggestions(activity, SuggestionsProvider.AUTHORITY,
+                        SuggestionsProvider.MODE).saveRecentQuery(query, null)
                 return false
             }
 
-            override fun onQueryTextChange(query: String): Boolean  = false
+            override fun onQueryTextChange(query: String): Boolean = false
+        })
+
+        searchView?.setOnSuggestionListener(object : SearchView.OnSuggestionListener {
+            override fun onSuggestionSelect(p0: Int): Boolean {
+                return false
+            }
+
+            override fun onSuggestionClick(position: Int): Boolean {
+                val suggestion = getSuggestion(position)
+                searchView?.setQuery(suggestion, true)
+                return true
+            }
+
+            fun getSuggestion(position: Int): String {
+                val cursor = searchView?.suggestionsAdapter?.getItem(position) as Cursor?
+                cursor?.moveToFirst()
+                return cursor?.
+                        getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1)) ?: ""
+            }
+
         })
 
         searchMenuItem?.setOnActionExpandListener(object: MenuItem.OnActionExpandListener{
