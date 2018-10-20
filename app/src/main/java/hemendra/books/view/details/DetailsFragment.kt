@@ -205,7 +205,8 @@ class DetailsFragment: Fragment(), IImageHolder {
     }
 
     fun destroy() {
-
+        savedView = null
+        book = null
     }
 
 }

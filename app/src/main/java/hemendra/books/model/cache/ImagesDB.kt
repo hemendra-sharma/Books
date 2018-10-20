@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.support.annotation.VisibleForTesting
 
 /**
  * We are going to convert them in blob (byte array) and save them into the database itself.
@@ -17,10 +18,13 @@ class ImagesDB(ctx: Context) {
         /**
          * Maximum number of cover images we want to hold up in the cache.
          */
-        private const val MAX_CACHED_IMAGES = 100
+        @VisibleForTesting
+        internal const val MAX_CACHED_IMAGES = 100
 
         private const val DATABASE_VERSION = 1
-        private const val DATABASE_NAME = "ImagesDB"
+
+        @VisibleForTesting
+        internal const val DATABASE_NAME = "ImagesDB"
 
         private const val TAB_IMAGES = "tab_images"
 
@@ -44,17 +48,16 @@ class ImagesDB(ctx: Context) {
         }
 
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-            upgradeDowngrade(db, oldVersion, newVersion)
+            upgradeDowngrade(db)
         }
 
         override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int,
                                  newVersion: Int) {
-            upgradeDowngrade(db, oldVersion, newVersion)
+            upgradeDowngrade(db)
         }
 
-        private fun upgradeDowngrade(db: SQLiteDatabase,
-                                     oldVersion: Int,
-                                     newVersion: Int) {
+        private fun upgradeDowngrade(db: SQLiteDatabase) {
+            // simply invalidate the whole cache and build it again
             db.execSQL("DROP TABLE IF EXISTS $TAB_IMAGES")
             onCreate(db)
         }
@@ -142,8 +145,8 @@ class ImagesDB(ctx: Context) {
     fun getImage(url: String): ByteArray? {
         var bytes: ByteArray? = null
         if (url.isNotEmpty()) {
-            val c = db.rawQuery("select * from " + TAB_IMAGES +
-                    " WHERE url='" + url.trim { it <= ' ' } + "'", null)
+            val c = db.rawQuery("select * from $TAB_IMAGES WHERE url='"
+                    + url.trim { it <= ' ' } + "'", null)
             if (c != null) {
                 if (c.moveToFirst() && c.columnCount >= 3
                         && !c.isNull(2)) {
@@ -153,6 +156,42 @@ class ImagesDB(ctx: Context) {
             }
         }
         return bytes
+    }
+
+    /**
+     * Returns the number of rows which exists for the given URL.
+     * Ideally there should be only 1 row each URL.
+     */
+    @VisibleForTesting
+    internal fun getRecordsCountForUrl(url: String): Int {
+        var count = 0
+        if (url.isNotEmpty()) {
+            val c = db.rawQuery("SELECT COUNT(*) FROM $TAB_IMAGES WHERE url='"
+                    + url.trim { it <= ' ' } + "'", null)
+            if(c != null) {
+                if(c.moveToFirst() && c.columnCount > 0) {
+                    count = c.getInt(0)
+                }
+                c.close()
+            }
+        }
+        return count
+    }
+
+    /**
+     * Returns the total number of rows exists in the database.
+     */
+    @VisibleForTesting
+    internal fun getTotalRecordsCount(): Int {
+        var count = 0
+        val c = db.rawQuery("SELECT COUNT(*) FROM $TAB_IMAGES", null)
+        if(c != null) {
+            if(c.moveToFirst() && c.columnCount > 0) {
+                count = c.getInt(0)
+            }
+            c.close()
+        }
+        return count
     }
 
 }
